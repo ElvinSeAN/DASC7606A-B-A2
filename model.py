@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast, PreTrainedModel, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast, PreTrainedModel, AutoModelForSeq2SeqLM,  AutoModelForCausalLM
 
 from constants import MODEL_CHECKPOINT
 
@@ -35,4 +35,5 @@ def initialize_model() -> PreTrainedModel:
     model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
             pretrained_model_name_or_path=MODEL_CHECKPOINT
         )
+    
     return model
