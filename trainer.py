@@ -18,8 +18,8 @@ def create_training_arguments() -> TrainingArguments:
     training_args = Seq2SeqTrainingArguments(
         output_dir=OUTPUT_DIR,
         num_train_epochs=1,
-        per_device_train_batch_size=48,
-        per_device_eval_batch_size=48,
+        per_device_train_batch_size=256,
+        per_device_eval_batch_size=256,
         learning_rate=2e-5,
         weight_decay=0.01,
         warmup_steps=0,
@@ -33,8 +33,8 @@ def create_training_arguments() -> TrainingArguments:
         greater_is_better=True,
         max_grad_norm=1.0,
         predict_with_generate=True,
-        fp16=False,
-        gradient_accumulation_steps=4,
+        bf16=True,
+        gradient_accumulation_steps=2,
         dataloader_num_workers=4,
     )
 
