@@ -49,7 +49,8 @@ def create_training_arguments() -> TrainingArguments:
         bf16=True,
         metric_for_best_model="loss",
         greater_is_better=False,
-        prediction_loss_only=True
+        prediction_loss_only=True,
+        save_total_limit=3,
     )
 
     return training_args
@@ -104,6 +105,7 @@ def build_trainer(model, tokenizer, tokenized_datasets) -> Trainer:
     eval_dataset=tokenized_datasets["validation"],
     tokenizer=tokenizer,
     data_collator=data_collator,
+
     # compute_metrics=lambda eval_preds: compute_metrics(eval_preds, tokenizer)
     )
 
