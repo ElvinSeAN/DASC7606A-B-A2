@@ -30,6 +30,7 @@ def main():
         tokenizer=tokenizer,
         tokenized_datasets=tokenized_datasets,
     )
+    print(tokenized_datasets["train"][0])
     trainer.train()
 
     # Evaluate the model on the test dataset
