@@ -30,14 +30,47 @@ def _build_quantization_config(load_4bit: bool = False) -> BitsAndBytesConfig:
         )
     return BitsAndBytesConfig(load_in_8bit=True)
 
+# def initialize_model(load_4bit: bool = False) -> PreTrainedModel:
+#     tokenizer = initialize_tokenizer()
+#     quantization_config = _build_quantization_config(load_4bit=load_4bit)
+#
+#     base_model = AutoModelForCausalLM.from_pretrained(
+#         pretrained_model_name_or_path=MODEL_CHECKPOINT,
+#         device_map="auto",
+#         quantization_config=quantization_config,
+#     )
+#
+#     if hasattr(base_model, "resize_token_embeddings"):
+#         base_model.resize_token_embeddings(len(tokenizer))
+#     base_model.config.pad_token_id = tokenizer.pad_token_id
+#     if hasattr(base_model, "gradient_checkpointing_enable"):
+#         base_model.gradient_checkpointing_enable()
+#     if hasattr(base_model.config, "use_cache"):
+#         base_model.config.use_cache = False
+#
+#     base_model = prepare_model_for_kbit_training(base_model)
+#     base_model.enable_input_require_grads()
+#
+#     lora_cfg = LoraConfig(
+#         r=8,
+#         lora_alpha=16,
+#         lora_dropout=0.05,
+#         bias="none",
+#         task_type="CAUSAL_LM",
+#         target_modules=("q_proj", "k_proj", "v_proj", "o_proj"),
+#     )
+#     model = get_peft_model(base_model, lora_cfg)
+#     model.print_trainable_parameters()
+#     return model
+
+
 def initialize_model(load_4bit: bool = False) -> PreTrainedModel:
     tokenizer = initialize_tokenizer()
-    quantization_config = _build_quantization_config(load_4bit=load_4bit)
 
     base_model = AutoModelForCausalLM.from_pretrained(
         pretrained_model_name_or_path=MODEL_CHECKPOINT,
+        torch_dtype=torch.bfloat16,
         device_map="auto",
-        quantization_config=quantization_config,
     )
 
     if hasattr(base_model, "resize_token_embeddings"):
@@ -48,18 +81,4 @@ def initialize_model(load_4bit: bool = False) -> PreTrainedModel:
     if hasattr(base_model.config, "use_cache"):
         base_model.config.use_cache = False
 
-    base_model = prepare_model_for_kbit_training(base_model)
-    base_model.enable_input_require_grads()
-
-    lora_cfg = LoraConfig(
-        r=8,
-        lora_alpha=16,
-        lora_dropout=0.05,
-        bias="none",
-        task_type="CAUSAL_LM",
-        target_modules=("q_proj", "k_proj", "v_proj", "o_proj"),
-    )
-    model = get_peft_model(base_model, lora_cfg)
-    model.print_trainable_parameters()
-    return model
-
+    return base_model
