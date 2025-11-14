@@ -94,20 +94,21 @@ def preprocess_data(raw_datasets: DatasetDict, tokenizer) -> DatasetDict:
     Returns:
         Tokenized datasets.
     """
-    # tokenized_datasets: DatasetDict = raw_datasets.map(
-    #     function=lambda examples: preprocess_function(
-    #         examples=examples,
-    #         prefix="",
-    #         tokenizer=tokenizer,
-    #         max_input_length=MAX_INPUT_LENGTH,
-    #         max_target_length=MAX_TARGET_LENGTH,
-    #     ),
-    #     batched=True,
-    # )
-    tokenized_datasets = raw_datasets.map(
-        preprocess_function,
+    tokenized_datasets: DatasetDict = raw_datasets.map(
+        function=lambda examples: preprocess_function(
+            examples=examples,
+            prefix="",
+            tokenizer=tokenizer,
+            max_input_length=MAX_INPUT_LENGTH,
+            max_target_length=MAX_TARGET_LENGTH,
+        ),
         batched=True,
-        remove_columns=raw_datasets["train"].column_names,
+        remove_columns=raw_datasets["train"].column_names
     )
+    # tokenized_datasets = raw_datasets.map(
+    #     preprocess_function,
+    #     batched=True,
+    #     remove_columns=raw_datasets["train"].column_names,
+    # )
 
     return tokenized_datasets
