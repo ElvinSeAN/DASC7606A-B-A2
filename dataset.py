@@ -17,7 +17,7 @@ def build_dataset() -> DatasetDict | Dataset | IterableDatasetDict | IterableDat
         raw_datasets["validation"] = load_dataset('wmt19', 'zh-en', split="validation")
     """
     dataset = load_dataset("wmt19", "zh-en")
-    train_dataset = dataset["train"].select(range(1300000))
+    train_dataset = dataset["train"].select(range(10000))
     validation_dataset = dataset["train"].select(range(1300000, 1302000))
 
     # NOTE: You should not change the test dataset
