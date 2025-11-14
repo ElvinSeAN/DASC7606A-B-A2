@@ -1,6 +1,6 @@
 from transformers import AutoTokenizer, PreTrainedTokenizer, PreTrainedTokenizerFast, PreTrainedModel, AutoModelForSeq2SeqLM,  AutoModelForCausalLM, BitsAndBytesConfig
 import torch
-from peft import LoraConfig, get_peft_model
+from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from constants import MODEL_CHECKPOINT
 
 
@@ -43,11 +43,13 @@ def initialize_model(load_4bit: bool = False) -> PreTrainedModel:
     if hasattr(base_model, "resize_token_embeddings"):
         base_model.resize_token_embeddings(len(tokenizer))
     base_model.config.pad_token_id = tokenizer.pad_token_id
-
     if hasattr(base_model, "gradient_checkpointing_enable"):
         base_model.gradient_checkpointing_enable()
     if hasattr(base_model.config, "use_cache"):
         base_model.config.use_cache = False
+
+    base_model = prepare_model_for_kbit_training(base_model)
+    base_model.enable_input_require_grads()
 
     lora_cfg = LoraConfig(
         r=8,
