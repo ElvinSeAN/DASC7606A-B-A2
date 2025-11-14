@@ -2,4 +2,4 @@ OUTPUT_DIR = "./results"
 MAX_INPUT_LENGTH = 128
 MAX_TARGET_LENGTH = 128
 # MODEL_CHECKPOINT = "Helsinki-NLP/opus-mt-zh-en"
-MODEL_CHECKPOINT = "facebook/bart-large"
+MODEL_CHECKPOINT = "tencent/Hunyuan-MT-7B"

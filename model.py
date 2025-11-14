@@ -15,6 +15,7 @@ def initialize_tokenizer() -> PreTrainedTokenizer | PreTrainedTokenizerFast:
     tokenizer: PreTrainedTokenizer | PreTrainedTokenizerFast = AutoTokenizer.from_pretrained(
         pretrained_model_name_or_path=MODEL_CHECKPOINT
     )
+
     return tokenizer
 
 
@@ -28,12 +29,12 @@ def initialize_model() -> PreTrainedModel:
 
     NOTE: You are free to change this.
     """
-    model: PreTrainedModel = AutoModelForSeq2SeqLM.from_pretrained(
-        pretrained_model_name_or_path=MODEL_CHECKPOINT
-    )
+    # model: PreTrainedModel = AutoModelForSeq2SeqLM.from_pretrained(
+    #     pretrained_model_name_or_path=MODEL_CHECKPOINT
+    # )
 
-    # model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
-    #         pretrained_model_name_or_path=MODEL_CHECKPOINT
-    #     )
+    model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
+            pretrained_model_name_or_path=MODEL_CHECKPOINT
+        )
     
     return model
