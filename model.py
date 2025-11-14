@@ -34,7 +34,7 @@ def initialize_model() -> PreTrainedModel:
     # )
 
     model: PreTrainedModel = AutoModelForCausalLM.from_pretrained(
-            pretrained_model_name_or_path=MODEL_CHECKPOINT
+            pretrained_model_name_or_path=MODEL_CHECKPOINT,load_in_8bit=True,device_map="auto"
         )
     
     return model
