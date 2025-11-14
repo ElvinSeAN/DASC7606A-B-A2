@@ -44,7 +44,7 @@ def create_training_arguments() -> TrainingArguments:
         learning_rate=5e-5,
         num_train_epochs=3,
         logging_steps=50,
-        evaluation_strategy="steps",
+        eval_strategy="steps",
         save_steps=500,
     )
 
