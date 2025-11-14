@@ -49,6 +49,7 @@ def create_training_arguments() -> TrainingArguments:
         bf16=True,
         metric_for_best_model="bleu",
         greater_is_better=True,
+        prediction_loss_only=True
     )
 
     return training_args
