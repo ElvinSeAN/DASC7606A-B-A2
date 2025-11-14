@@ -57,14 +57,30 @@ def preprocess_function(examples, prefix, tokenizer, max_input_length, max_targe
     Returns:
         Model inputs.
     """
-    inputs = [prefix + ex["zh"] for ex in examples["translation"]]
+    # inputs = [prefix + ex["zh"] for ex in examples["translation"]]
+    # targets = [ex["en"] for ex in examples["translation"]]
+    #
+    # model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=True)
+    # labels = tokenizer(text_target=targets, max_length=max_target_length, truncation=True)
+    #
+    # model_inputs["labels"] = labels["input_ids"]
+    # return model_inputs
+
+    sources = [prefix + ex["zh"] for ex in examples["translation"]]
     targets = [ex["en"] for ex in examples["translation"]]
 
-    model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=True)
-    labels = tokenizer(text_target=targets, max_length=max_target_length, truncation=True)
+    # e.g. "<zh> -> <en>" format
+    texts = [f"{src}\nEnglish: {tgt}" for src, tgt in zip(sources, targets)]
 
-    model_inputs["labels"] = labels["input_ids"]
-    return model_inputs
+    tokenized = tokenizer(
+        texts,
+        max_length=max_input_length,  # or some total length
+        truncation=True,
+    )
+
+    # For basic supervised fine-tuning: labels are the same as input_ids
+    tokenized["labels"] = tokenized["input_ids"].copy()
+    return tokenized
 
 
 def preprocess_data(raw_datasets: DatasetDict, tokenizer) -> DatasetDict:
