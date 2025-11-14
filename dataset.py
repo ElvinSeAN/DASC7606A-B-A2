@@ -79,7 +79,7 @@ def preprocess_function(examples, prefix, tokenizer, max_input_length, max_targe
     )
 
     # For basic supervised fine-tuning: labels are the same as input_ids
-    tokenized["labels"] = tokenized["input_ids"].copy()
+    # tokenized["labels"] = tokenized["input_ids"].copy()
     return tokenized
 
 
